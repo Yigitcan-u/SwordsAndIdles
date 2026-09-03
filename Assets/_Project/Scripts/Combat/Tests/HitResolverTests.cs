@@ -143,6 +143,41 @@ namespace SwordsAndIdles.Combat.Tests
         }
 
         [Test]
+        public void EtkinZirh_SifirDelmeZirhiOldugGibiBirakir()
+        {
+            var daggerUser = TestData.StateOf(
+                TestData.With("Hançerci", TestData.Stats(), new Loadout(TestData.Dagger())),
+                _balance);
+
+            var plated = TestData.StateOf(
+                TestData.With("Plakalı", TestData.Stats(strength: 20),
+                    new Loadout(TestData.Sword(), armor: TestData.Plate())),
+                _balance,
+                CombatSide.Second);
+
+            Assert.That(HitResolver.ComputeEffectiveArmor(daggerUser, plated), Is.EqualTo(32));
+        }
+
+        [Test]
+        public void EtkinZirh_TamDelmeZirhiSifirlar()
+        {
+            var awl = new WeaponStats(
+                new EquipmentCommon(weight: 3), 5, 10, 8, 20, armorPiercePercent: 100);
+
+            var piercer = TestData.StateOf(
+                TestData.With("Delici", TestData.Stats(), new Loadout(awl)),
+                _balance);
+
+            var plated = TestData.StateOf(
+                TestData.With("Plakalı", TestData.Stats(strength: 20),
+                    new Loadout(TestData.Sword(), armor: TestData.Plate(), helmet: TestData.GreatHelm())),
+                _balance,
+                CombatSide.Second);
+
+            Assert.That(HitResolver.ComputeEffectiveArmor(piercer, plated), Is.Zero);
+        }
+
+        [Test]
         public void Zirh_AzalanGetirili_TamBagisiklikYok()
         {
             var balance = TestData.DeterministicBalance();

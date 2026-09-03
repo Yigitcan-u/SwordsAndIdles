@@ -12,8 +12,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- Combat.Core kaynakları doğrudan derlenir; ikinci bir kopya tutulmaz. -->
+    <!-- Tek kaynak: hem Unity Test Runner hem dotnet test ayni dosyalari kosuyor. -->
     <Compile Include="../../Assets/_Project/Scripts/Combat/Core/**/*.cs" />
+    <Compile Include="../../Assets/_Project/Scripts/Combat/Tests/**/*.cs" />
   </ItemGroup>
 
   <ItemGroup>
