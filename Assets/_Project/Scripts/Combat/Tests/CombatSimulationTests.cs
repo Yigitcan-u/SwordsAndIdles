@@ -284,6 +284,24 @@ namespace SwordsAndIdles.Combat.Tests
         }
 
         [Test]
+        public void OldurucuTur_SayacaDahil()
+        {
+            var sim = new CombatSimulation(
+                TestData.DeterministicBalance(),
+                TestData.With("Titan", TestData.Stats(strength: 200, agility: 50),
+                    new Loadout(TestData.Sword())),
+                TestData.With("Kurban", TestData.Stats(agility: 1), new Loadout(TestData.Sword())),
+                3);
+
+            sim.Advance(CombatAction.HeavyAttack);
+
+            var ended = sim.Log.OfType<FightEndedEvent>().Single();
+
+            Assert.That(ended.Turns, Is.EqualTo(1), "Oldurucu tur da sayilmali");
+            Assert.That(sim.Log.OfType<TurnEndedEvent>().Count(), Is.EqualTo(1));
+        }
+
+        [Test]
         public void BitmisDovuste_AdvanceHataVerir()
         {
             var sim = new CombatSimulation(

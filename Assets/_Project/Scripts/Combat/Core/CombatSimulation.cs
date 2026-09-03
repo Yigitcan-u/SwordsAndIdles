@@ -242,7 +242,7 @@ namespace SwordsAndIdles.Combat
 
                 if (Round >= _balance.MaxRounds)
                 {
-                    Finish(CombatOutcome.Draw);
+                    Finish(CombatOutcome.Draw, false);
                     return;
                 }
 
@@ -285,7 +285,7 @@ namespace SwordsAndIdles.Combat
             {
                 Finish(attacker.Side == CombatSide.First
                     ? CombatOutcome.FirstWins
-                    : CombatOutcome.SecondWins);
+                    : CombatOutcome.SecondWins, true);
                 return;
             }
 
@@ -317,8 +317,16 @@ namespace SwordsAndIdles.Combat
             Emit(new StanceAdoptedEvent(actor.Side, stance, gained, actor.Stamina));
         }
 
-        private void Finish(CombatOutcome outcome)
+        // Oldurucu vurus turu yarida keser; o turu da kapatiyoruz ki ozet satirindaki
+        // tur sayisi gercekten oynanan tur sayisi olsun.
+        private void Finish(CombatOutcome outcome, bool closeCurrentTurn)
         {
+            if (closeCurrentTurn)
+            {
+                Emit(new TurnEndedEvent(ActiveSide));
+                TurnIndex++;
+            }
+
             Outcome = outcome;
             Emit(new FightEndedEvent(outcome, Winner, Round, TurnIndex));
         }
