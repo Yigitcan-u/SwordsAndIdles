@@ -107,6 +107,16 @@ InitTestScene*.unity*
 
 # --- SwordsAndIdles ---
 
+# Ajan talimatlari ve tasarim dokumanlari repoya girmiyor (kullanici istegi).
+CLAUDE.md
+docs/
+
+# Unity'siz calisan test projesi (Assets disinda, dotnet test ile kosulur).
+# Kok sablon *.csproj'u disliyor; bu projenin dosyasi repoda kalmali.
+!Tests/**/*.csproj
+Tests/**/bin/
+Tests/**/obj/
+
 # Excel gecici/kilit dosyalari (Configs/Data acikken olusur)
 ~$*.xls*
 

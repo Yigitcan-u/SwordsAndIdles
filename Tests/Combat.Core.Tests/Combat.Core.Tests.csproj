@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <AssemblyName>SwordsAndIdles.Combat.Tests</AssemblyName>
+    <RootNamespace>SwordsAndIdles.Combat.Tests</RootNamespace>
+    <!-- Unity 6 C# 9 derliyor; test projesi de aynı sınırda kalsın ki
+         burada derlenen bir şey Unity'de patlamasın. -->
+    <LangVersion>9.0</LangVersion>
+    <IsPackable>false</IsPackable>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Combat.Core kaynakları doğrudan derlenir; ikinci bir kopya tutulmaz. -->
+    <Compile Include="../../Assets/_Project/Scripts/Combat/Core/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="4.2.2" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+
+</Project>
