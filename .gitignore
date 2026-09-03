@@ -111,10 +111,11 @@ InitTestScene*.unity*
 ~$*.xls*
 
 # OS / editor artiklari
+.idea/
 .DS_Store
 Thumbs.db
 desktop.ini
 *.swp
 
 # NOT: Luban ciktilari (Assets/_Project/Scripts/Config/Generated ve
-# Assets/StreamingAssets/Config) BILEREK ignore EDILMIYOR - bkz. Configs/README.md
+# Assets/_Project/Resources/Config) BILEREK ignore EDILMIYOR - bkz. Configs/README.md

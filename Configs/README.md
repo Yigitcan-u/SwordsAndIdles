@@ -21,10 +21,32 @@ Configs/
 | Ne | Nereye |
 |---|---|
 | Üretilen C# | `Assets/_Project/Scripts/Config/Generated` |
-| Üretilen JSON | `Assets/StreamingAssets/Config` |
+| Üretilen JSON | `Assets/_Project/Resources/Config` |
 
 > **Uyarı:** Luban, `outputCodeDir` içindeki *tüm* dosyaları silip yeniden yazar.
-> O klasöre asla elle kod koyma.
+> O klasöre asla elle kod koyma. Aynısı `outputDataDir` için de geçerli.
+
+JSON'lar `Resources` altında duruyor çünkü `Resources.Load` her platformda
+senkron çalışır. `StreamingAssets` Android'de APK'nın içinde kalır ve orada
+ancak asenkron `UnityWebRequest` ile okunabilir.
+
+## Oyunda kullanımı
+
+`ConfigManager` tabloları ilk erişimde belleğe alır:
+
+```csharp
+using SwordsAndIdles.Config;
+
+var sword = ConfigManager.Tables.TbItem[1001];
+Debug.Log($"{sword.Name} — atk {sword.BaseAtk}");
+
+// id yoksa istisna yerine null:
+var maybe = ConfigManager.Tables.TbItem.GetOrDefault(9999);
+```
+
+`GameManager.Awake` açılışta `ConfigManager.Preload()` çağırıyor, böylece
+yükleme ilk kareye takılmıyor. Play mode açıkken `gen.bat` çalıştırırsan
+`ConfigManager.Reload()` ile tazeleyebilirsin.
 
 ## Günlük akış
 
@@ -58,6 +80,9 @@ Configs/
 - Tablo adları `TbXxxYyy`, alan adları `xx_yy_zz` (Luban C#'ta otomatik `XxYyZz` yapar)
 - Modül başına ayrı klasör/dosya — `item`, `hero`, `skill` gibi
 - Geliştirme sırasında `-d json` (okunabilir, diff'lenebilir). Sürüm alırken `-c cs-bin -d bin`'e geç.
+- `gen.bat` `DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1` ile çalışır. Türkçe locale'de
+  .NET `I` harfini noktasız `ı` yapıyor ve Luban dosya adlarını bozuk üretiyordu
+  (`item_tbıtem.json`). Bu satırı silme.
 
 ## Üretilen dosyaları commit'lemeli miyim?
 
